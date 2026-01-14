@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>DSA Nexus | PUCIT</title>
+	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<!-- Favicon -->
+	<link rel="icon" type="image/png" sizes="512x512" href="./media/pucit_logo_512x512.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="./media/pucit_logo_512x512.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="./media/pucit_logo_512x512.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="./media/pucit_logo_512x512.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="./media/pucit_logo_512x512.png">
+</head>
+<body>
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+	<div class="modal-content">
+		<span class="close">&times;</span>
+		<h2><i class="fas fa-user-shield"></i> TA Login</h2>
+		<p class="login-subtitle">Secure access for portal management</p>
+		
+		<div class="login-simple">
+			<form id="emailLoginForm">
+				<div class="input-field">
+					<i class="fas fa-envelope"></i>
+					<input type="email" id="loginEmail" placeholder="Enter your email" required>
+				</div>
+				<div class="input-field">
+					<i class="fas fa-lock"></i>
+					<input type="password" id="loginPassword" placeholder="Enter password" required>
+				</div>
+				<button type="submit">Sign In</button>
+			</form>
+		</div>
+		
+		<p id="loginError" class="error-message"></p>
+	</div>
+</div>
+
+<!-- Header -->
+<header>
+	<div class="logo-container">
+		<div class="logo">
+			<img src="./media/pucit_logo_512x512.png" alt="PUCIT Logo" class="logo-image">
+		</div>
+	</div>
+	<div class="portal-branding">
+		<h1 class="portal-title">DSA <span class="text-accent">Nexus</span></h1>
+		<p class="portal-subtitle">PUCIT • Computer Science • Session 2024</p>
+	</div>
+	<div class="auth-buttons">
+		<div class="search-container">
+			<input type="text" id="resourceSearch" placeholder="Search resources...">
+			<i class="fas fa-search"></i>
+		</div>
+		<button id="loginBtn" class="btn-login">
+			<i class="fas fa-sign-in-alt"></i> TA Sign In
+		</button>
+		<button id="logoutBtn" class="btn-logout" style="display: none;">
+			<i class="fas fa-sign-out-alt"></i> <span id="userDisplay"></span>
+		</button>
+	</div>
+</header>
+
+<!-- Main Content -->
+<main>
+	<!-- Morning Section -->
+	<section class="section main-section">
+		<h2 class="section-title">Morning</h2>
+		<div class="section-content">
+			<!-- Labs Subsection -->
+			<div class="subsection">
+				<h3 class="subsection-title">Labs</h3>
+				<div class="subsection-content">
+					<div class="sub-subsection">
+						<h4 class="sub-subsection-title">Lab</h4>
+						<div class="file-grid" id="morningLabFiles">
+							<!-- Morning lab files will be dynamically added here -->
+						</div>
+						<div id="morningLabUploadArea" class="upload-area" style="display: none;">
+							<div class="upload-header">
+								<i class="fas fa-cloud-upload-alt"></i>
+								<span>Upload Lab</span>
+							</div>
+							<div class="upload-form">
+								<div class="input-field">
+									<i class="fas fa-file-signature"></i>
+									<input type="text" id="morningLabNameInput" placeholder="Display Name (e.g. Lab 1)"
+									       required>
+								</div>
+								<div class="input-field">
+									<i class="fas fa-link"></i>
+									<input type="url" id="morningLabLinkInput" placeholder="Resource URL (Link)"
+									       required>
+								</div>
+								<button onclick="uploadLink('morningLab')" class="upload-btn">
+									<i class="fas fa-plus-circle"></i> Add Resource
+								</button>
+							</div>
+						</div>
+					</div>
+					
+					<div class="sub-subsection">
+						<h4 class="sub-subsection-title">Lab Solution</h4>
+						<div class="file-grid" id="morningLabSolutionFiles">
+							<!-- Morning lab solution files will be dynamically added here -->
+						</div>
+						<div id="morningLabSolutionUploadArea" class="upload-area" style="display: none;">
+							<div class="upload-header">
+								<i class="fas fa-cloud-upload-alt"></i>
+								<span>Upload Lab Solution</span>
+							</div>
+							<div class="upload-form">
+								<div class="input-field">
+									<i class="fas fa-file-signature"></i>
+									<input type="text" id="morningLabSolutionNameInput"
+									       placeholder="Display Name (e.g. Lab 1 Solution)" required>
+								</div>
+								<div class="input-field">
+									<i class="fas fa-link"></i>
+									<input type="url" id="morningLabSolutionLinkInput" placeholder="Resource URL (Link)"
+									       required>
+								</div>
+								<button onclick="uploadLink('morningLabSolution')" class="upload-btn">
+									<i class="fas fa-plus-circle"></i> Add Resource
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Quiz Subsection -->
+			<div class="subsection">
+				<h3 class="subsection-title">Quiz</h3>
+				<div class="subsection-content">
+					<div class="sub-subsection">
+						<h4 class="sub-subsection-title">Quiz</h4>
+						<div class="file-grid" id="morningQuizFiles">
+							<!-- Morning quiz files will be dynamically added here -->
+						</div>
+						<div id="morningQuizUploadArea" class="upload-area" style="display: none;">
+							<div class="upload-header">
+								<i class="fas fa-cloud-upload-alt"></i>
+								<span>Upload Quiz</span>
+							</div>
+							<div class="upload-form">
+								<div class="input-field">
+									<i class="fas fa-file-signature"></i>
+									<input type="text" id="morningQuizNameInput"
+									       placeholder="Display Name (e.g. Quiz 1)" required>
+								</div>
+								<div class="input-field">
+									<i class="fas fa-link"></i>
+									<input type="url" id="morningQuizLinkInput" placeholder="Resource URL (Link)"
+									       required>
+								</div>
+								<button onclick="uploadLink('morningQuiz')" class="upload-btn">
+									<i class="fas fa-plus-circle"></i> Add Resource
+								</button>
+							</div>
+						</div>
+					</div>
+					
+					<div class="sub-subsection">
+						<h4 class="sub-subsection-title">Quiz Solution</h4>
+						<div class="file-grid" id="morningQuizSolutionFiles">
+							<!-- Morning quiz solution files will be dynamically added here -->
+						</div>
+						<div id="morningQuizSolutionUploadArea" class="upload-area" style="display: none;">
+							<div class="upload-header">
+								<i class="fas fa-cloud-upload-alt"></i>
+								<span>Upload Quiz Solution</span>
+							</div>
+							<div class="upload-form">
+								<div class="input-field">
+									<i class="fas fa-file-signature"></i>
+									<input type="text" id="morningQuizSolutionNameInput"
+									       placeholder="Display Name (e.g. Quiz 1 Solution)" required>
+								</div>
+								<div class="input-field">
+									<i class="fas fa-link"></i>
+									<input type="url" id="morningQuizSolutionLinkInput"
+									       placeholder="Resource URL (Link)" required>
+								</div>
+								<button onclick="uploadLink('morningQuizSolution')" class="upload-btn">
+									<i class="fas fa-plus-circle"></i> Add Resource
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<!-- Afternoon Section -->
+	<section class="section main-section">
+		<h2 class="section-title">Afternoon</h2>
+		<div class="section-content">
+			<!-- Labs Subsection -->
+			<div class="subsection">
+				<h3 class="subsection-title">Labs</h3>
+				<div class="subsection-content">
+					<div class="sub-subsection">
+						<h4 class="sub-subsection-title">Lab</h4>
+						<div class="file-grid" id="afternoonLabFiles">
+							<!-- Afternoon lab files will be dynamically added here -->
+						</div>
+						<div id="afternoonLabUploadArea" class="upload-area" style="display: none;">
+							<div class="upload-header">
+								<i class="fas fa-cloud-upload-alt"></i>
+								<span>Upload Lab</span>
+							</div>
+							<div class="upload-form">
+								<div class="input-field">
+									<i class="fas fa-file-signature"></i>
+									<input type="text" id="afternoonLabNameInput"
+									       placeholder="Display Name (e.g. Lab 1)" required>
+								</div>
+								<div class="input-field">
+									<i class="fas fa-link"></i>
+									<input type="url" id="afternoonLabLinkInput" placeholder="Resource URL (Link)"
+									       required>
+								</div>
+								<button onclick="uploadLink('afternoonLab')" class="upload-btn">
+									<i class="fas fa-plus-circle"></i> Add Resource
+								</button>
+							</div>
+						</div>
+					</div>
+					
+					<div class="sub-subsection">
+						<h4 class="sub-subsection-title">Lab Solution</h4>
+						<div class="file-grid" id="afternoonLabSolutionFiles">
+							<!-- Afternoon lab solution files will be dynamically added here -->
+						</div>
+						<div id="afternoonLabSolutionUploadArea" class="upload-area" style="display: none;">
+							<div class="upload-header">
+								<i class="fas fa-cloud-upload-alt"></i>
+								<span>Upload Lab Solution</span>
+							</div>
+							<div class="upload-form">
+								<div class="input-field">
+									<i class="fas fa-file-signature"></i>
+									<input type="text" id="afternoonLabSolutionNameInput"
+									       placeholder="Display Name (e.g. Lab 1 Solution)" required>
+								</div>
+								<div class="input-field">
+									<i class="fas fa-link"></i>
+									<input type="url" id="afternoonLabSolutionLinkInput"
+									       placeholder="Resource URL (Link)" required>
+								</div>
+								<button onclick="uploadLink('afternoonLabSolution')" class="upload-btn">
+									<i class="fas fa-plus-circle"></i> Add Resource
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Quiz Subsection -->
+			<div class="subsection">
+				<h3 class="subsection-title">Quiz</h3>
+				<div class="subsection-content">
+					<div class="sub-subsection">
+						<h4 class="sub-subsection-title">Quiz</h4>
+						<div class="file-grid" id="afternoonQuizFiles">
+							<!-- Afternoon quiz files will be dynamically added here -->
+						</div>
+						<div id="afternoonQuizUploadArea" class="upload-area" style="display: none;">
+							<div class="upload-header">
+								<i class="fas fa-cloud-upload-alt"></i>
+								<span>Upload Quiz</span>
+							</div>
+							<div class="upload-form">
+								<div class="input-field">
+									<i class="fas fa-file-signature"></i>
+									<input type="text" id="afternoonQuizNameInput"
+									       placeholder="Display Name (e.g. Quiz 1)" required>
+								</div>
+								<div class="input-field">
+									<i class="fas fa-link"></i>
+									<input type="url" id="afternoonQuizLinkInput" placeholder="Resource URL (Link)"
+									       required>
+								</div>
+								<button onclick="uploadLink('afternoonQuiz')" class="upload-btn">
+									<i class="fas fa-plus-circle"></i> Add Resource
+								</button>
+							</div>
+						</div>
+					</div>
+					
+					<div class="sub-subsection">
+						<h4 class="sub-subsection-title">Quiz Solution</h4>
+						<div class="file-grid" id="afternoonQuizSolutionFiles">
+							<!-- Afternoon quiz solution files will be dynamically added here -->
+						</div>
+						<div id="afternoonQuizSolutionUploadArea" class="upload-area" style="display: none;">
+							<div class="upload-header">
+								<i class="fas fa-cloud-upload-alt"></i>
+								<span>Upload Quiz Solution</span>
+							</div>
+							<div class="upload-form">
+								<div class="input-field">
+									<i class="fas fa-file-signature"></i>
+									<input type="text" id="afternoonQuizSolutionNameInput"
+									       placeholder="Display Name (e.g. Quiz 1 Solution)" required>
+								</div>
+								<div class="input-field">
+									<i class="fas fa-link"></i>
+									<input type="url" id="afternoonQuizSolutionLinkInput"
+									       placeholder="Resource URL (Link)" required>
+								</div>
+								<button onclick="uploadLink('afternoonQuizSolution')" class="upload-btn">
+									<i class="fas fa-plus-circle"></i> Add Resource
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<!-- Marksheet Section -->
+	<section class="section">
+		<h2 class="section-title">Marksheets</h2>
+		<div class="section-content">
+			<div class="marksheet-grid">
+				<a class="sheet_link" target="_blank" href="https://docs.google.com/spreadsheets/d/1FIM4J9zfNlU2KsH0Jy8dFe6OZxXZU-lxDJ5qWKig_ms/edit?usp=drivesdk">
+					<div class="marksheet-card" id="csMorCard">
+						<div class="marksheet-icon">
+							<i class="fas fa-chart-bar"></i>
+						</div>
+						<h3>CS-MOR</h3>
+						<p>View Marksheet</p>
+						<i class="fas fa-external-link-alt marksheet-arrow"></i>
+					</div>
+				</a>
+				<a class="sheet_link" target="_blank" href="https://docs.google.com/spreadsheets/d/1bsHF7ctmRPE1zBD2wbsPA0ILyiu9ydPSqmgzKCpnTYo/edit?usp=drivesdk">
+					<div class="marksheet-card" id="csAftCard">
+						<div class="marksheet-icon">
+							<i class="fas fa-chart-bar"></i>
+						</div>
+						<h3>CS-AFT</h3>
+						<p>View Marksheet</p>
+						<i class="fas fa-external-link-alt marksheet-arrow"></i>
+					</div>
+				</a>
+			</div>
+		</div>
+	</section>
+	
+	<!-- Get Help Section -->
+	<section class="section">
+		<h2 class="section-title">Get Help</h2>
+		<div class="section-content">
+			<div class="help-card">
+				<div class="help-item">
+					<h3><i class="fas fa-chalkboard-teacher"></i> Teacher</h3>
+					<div class="contact-info">
+						<span>Dr. Zobia Sohail</span>
+						<div class="contact-links">
+							<a href="mailto:zobia.suhail@pucit.edu.pk" class="contact-link" title="Email">
+								<i class="fas fa-envelope"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="help-item">
+					<h3><i class="fas fa-user-graduate"></i> Teaching Assistants</h3>
+					<div class="contact-list">
+						
+						<div class="contact-info">
+							<span>Hafiz Own</span>
+							<div class="contact-links">
+								<a href="mailto:bcsf23m018@pucit.edu.pk" class="contact-link" title="Email">
+									<i class="fas fa-envelope"></i>
+								</a>
+								<a href="https://wa.me/923260706350" class="contact-link whatsapp" target="_blank"
+								   title="WhatsApp">
+									<i class="fab fa-whatsapp"></i>
+								</a>
+							</div>
+						</div>
+						<div class="contact-info">
+							<span>Hafiz Abdul Qadir</span>
+							<div class="contact-links">
+								<a href="mailto:bcsf23m002@pucit.edu.pk" class="contact-link" title="Email">
+									<i class="fas fa-envelope"></i>
+								</a>
+								<a href="https://wa.me/923234892756" class="contact-link whatsapp" target="_blank"
+								   title="WhatsApp">
+									<i class="fab fa-whatsapp"></i>
+								</a>
+							</div>
+						</div>
+						<div class="contact-info">
+							<span>Asadullah Ahmad</span>
+							<div class="contact-links">
+								<a href="mailto:bcsf23m020@pucit.edu.pk" class="contact-link" title="Email">
+									<i class="fas fa-envelope"></i>
+								</a>
+								<a href="https://wa.me/923346630398" class="contact-link whatsapp" target="_blank"
+								   title="WhatsApp">
+									<i class="fab fa-whatsapp"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<!-- Suggestions Section -->
+	<section class="section">
+		<h2 class="section-title">Suggestions & Feedback</h2>
+		<div class="section-content">
+			<div class="suggestion-card">
+				<div class="suggestion-icon">
+					<i class="fas fa-lightbulb"></i>
+				</div>
+				<div class="suggestion-info">
+					<h3>Have an idea or found a bug?</h3>
+					<p>Don't hesitate to initiate an issue or share your thoughts. Your feedback helps make this portal
+						better for everyone!</p>
+					<a href="https://github.com/hafiz-own/Students_Access_Portal/issues" target="_blank"
+					   class="suggestion-link">
+						<i class="fab fa-github"></i> Open an Issue
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<!-- Disclaimer -->
+	<div class="disclaimer">
+		<p>Disclaimer: This portal is not a university's official portal. It is just created by TA's to share academic
+			content with class.</p>
+	</div>
+</main>
+
+<!-- Custom Confirmation Modal -->
+<div id="confirmModal" class="modal">
+	<div class="modal-content confirm-content">
+		<h2><i class="fas fa-exclamation-triangle"></i> Confirm Action</h2>
+		<p id="confirmMessage">Are you sure you want to perform this action?</p>
+		<div class="confirm-buttons">
+			<button id="confirmCancel" class="btn-secondary">Cancel</button>
+			<button id="confirmBtn" class="btn-danger">Delete</button>
+		</div>
+	</div>
+</div>
+
+<!-- Notification Container -->
+<div id="notificationContainer" class="notification-container"></div>
+
+<!-- Back to Top Button -->
+<button id="backToTop" class="back-to-top" title="Back to Top">
+	<i class="fas fa-arrow-up"></i>
+</button>
+
+<script src="script.js"></script>
+</body>
+</html>
+
